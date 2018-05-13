@@ -58,29 +58,10 @@ public interface ElementConfigurator<T> {
      *      a Jenkins object is configured.
      * @return
      *      Fully configured Jenkins object that results from this configuration.
-     *      {@code null} if no new objects got created, but in such case some existing objects may have been modified
+     *      if no new objects got created, but some existing objects may have been modified, return updated target object.
      * @throws ConfiguratorException if something went wrong, depends on the concrete implementation
      */
-    @CheckForNull
+    @Nonnull
     T configure(CNode config) throws ConfiguratorException;
 
-    /**
-     * Configures/creates a Jenkins object based on a tree.
-     *
-     * @param config
-     *      Map/List/primitive objects (think YAML) that represents the configuration from which
-     *      a Jenkins object is configured.
-     * @return
-     *      Fully configured Jenkins object that results from this configuration.
-     * @throws ConfiguratorException if something went wrong, depends on the concrete implementation.
-     *      Also throws exception if the converted object is {@code null}
-     */
-    @Nonnull
-    default T configureNonNull(CNode config) throws ConfiguratorException {
-        T converted = configure(config);
-        if (converted == null) {
-            throw new ConfiguratorException(this, "Converted object is null, but a non-null object is required");
-        }
-        return converted;
-    }
 }

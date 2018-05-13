@@ -7,6 +7,7 @@ import com.cloudbees.plugins.credentials.SystemCredentialsProvider;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
+import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.casc.Attribute;
 import org.jenkinsci.plugins.casc.Configurator;
 import org.jenkinsci.plugins.casc.ConfiguratorException;
@@ -60,7 +61,11 @@ public class CredentialsRootConfigurator extends Configurator<CredentialsStore> 
             target.put(domainWithCredentials.domain, domainWithCredentials.credentials);
         }
 
-        return null;
+        // provider.getStore() is unfortunately private
+        final SystemCredentialsProvider.ProviderImpl p = Jenkins.getInstance().getExtensionList(SystemCredentialsProvider.ProviderImpl.class).get(0);
+        final CredentialsStore store = p.getStore(Jenkins.getInstance());
+        if (store == null) throw new IllegalStateException("SystemCredentialsProvider.getStore returned null");
+        return store;
     }
 
     @Override

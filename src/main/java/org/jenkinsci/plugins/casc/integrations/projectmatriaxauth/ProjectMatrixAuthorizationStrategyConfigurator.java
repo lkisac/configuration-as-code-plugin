@@ -37,7 +37,7 @@ public class ProjectMatrixAuthorizationStrategyConfigurator extends Configurator
         Configurator<GroupPermissionDefinition> permissionConfigurator = Configurator.lookupOrFail(GroupPermissionDefinition.class);
         Map<Permission,Set<String>> grantedPermissions = new HashMap<>();
         for(CNode entry : o) {
-            GroupPermissionDefinition gpd = permissionConfigurator.configureNonNull(entry);
+            GroupPermissionDefinition gpd = permissionConfigurator.configure(entry);
             //We transform the linear list to a matrix (Where permission is the key instead)
             gpd.grantPermission(grantedPermissions);
         }

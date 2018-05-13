@@ -248,6 +248,7 @@ public abstract class Configurator<T> implements ExtensionPoint, ElementConfigur
      * {@inheritDoc}
      * @param config
      */
+    @Nonnull
     public abstract T configure(CNode config) throws ConfiguratorException;
 
     /**

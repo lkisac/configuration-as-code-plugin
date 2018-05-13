@@ -77,7 +77,7 @@ public class RoleBasedAuthorizationStrategyConfigurator extends Configurator<Rol
         }
 
         for (CNode entry : c) {
-            RoleDefinition definition = configurator.configureNonNull(entry);
+            RoleDefinition definition = configurator.configure(entry);
             resMap.put(definition.getRole(), definition.getAssignments());
         }
 
